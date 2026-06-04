@@ -1,15 +1,31 @@
 'use client'
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
+import { Search, AlertTriangle } from 'lucide-react';
 
 async function fetchBlacklist() {
   const response = await fetch('/data/blacklist.json');
   return response.json();
 }
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.05 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, x: -20 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.3 } },
+};
+
 export default function BlacklistPage() {
   const { data, isLoading } = useQuery({ queryKey: ['blacklist'], queryFn: fetchBlacklist });
   const entries = data?.entries ?? [];
-  const [filter, setFilter] = React.useState('');
+  const [filter, setFilter] = useState('');
 
   const filtered = entries.filter((e:any) => {
     if (!filter) return true;
@@ -18,36 +34,75 @@ export default function BlacklistPage() {
   });
 
   return (
-    <section className="space-y-8 py-10">
-      <div>
-        <h2 className="text-3xl font-bold text-slate-950">Чёрный список</h2>
-        <p className="mt-3 text-slate-600">Проверяйте подозрительные номера, сайты и аккаунты перед переводом денег.</p>
-      </div>
+    <section className="space-y-12 py-10">
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <h2 className="text-4xl font-black text-slate-950">Чёрный список</h2>
+        <p className="mt-3 text-lg text-slate-600">Проверяйте подозрительные номера, сайты и аккаунты перед переводом денег.</p>
+      </motion.div>
 
-      <div className="flex w-full max-w-xl items-center gap-3">
-        <input value={filter} onChange={e=>setFilter(e.target.value)} placeholder="Поиск по номеру, сайту или описанию" className="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none" />
-        <button onClick={()=>setFilter('')} className="rounded-2xl bg-sky-600 px-4 py-2 text-white">Сброс</button>
-      </div>
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+        className="flex w-full max-w-2xl flex-col gap-3 sm:flex-row"
+      >
+        <div className="relative flex-1">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+          <input
+            value={filter}
+            onChange={e => setFilter(e.target.value)}
+            placeholder="Поиск по номеру, сайту или описанию..."
+            className="w-full rounded-2xl border-2 border-slate-300 bg-white pl-12 pr-4 py-3 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
+          />
+        </div>
+        <button
+          onClick={() => setFilter('')}
+          className="rounded-2xl bg-slate-200 px-6 py-3 font-semibold text-slate-700 transition hover:bg-slate-300"
+        >
+          Сброс
+        </button>
+      </motion.div>
 
       {isLoading ? (
-        <div>Загрузка...</div>
+        <div className="text-center py-12">Загрузка чёрного списка...</div>
       ) : (
-        <div className="space-y-4">
-          {filtered.map((entry:any) => (
-            <div key={entry.id} className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:flex sm:justify-between sm:items-center">
-              <div>
-                <p className="text-sm uppercase text-sky-600">{entry.type}</p>
-                <h3 className="mt-2 text-xl font-semibold text-slate-950">{entry.value}</h3>
-                <p className="mt-2 text-sm text-slate-600">{entry.description}</p>
-              </div>
-              <div className="mt-4 flex items-center gap-4 text-sm text-slate-500 sm:mt-0">
-                <span>Репортов: {entry.reports}</span>
-                <span>{entry.dateAdded}</span>
-              </div>
-            </div>
-          ))}
-          {filtered.length === 0 && <div className="text-slate-500">Ничего не найдено по запросу.</div>}
-        </div>
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="space-y-4"
+        >
+          {filtered.length === 0 ? (
+            <div className="text-center py-8 text-slate-600">Не найдено результатов для "{filter}"</div>
+          ) : (
+            filtered.map((entry:any) => (
+              <motion.div
+                key={entry.id}
+                variants={itemVariants}
+                className="group rounded-3xl border-2 border-slate-200 bg-gradient-to-r from-white to-slate-50 p-6 shadow-sm transition hover:shadow-lg hover:border-red-300 hover:-translate-y-1"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="rounded-full bg-red-100 p-3 text-red-600 flex-shrink-0">
+                    <AlertTriangle size={24} />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm font-bold uppercase text-red-600">{entry.type}</p>
+                    <h3 className="mt-2 text-xl font-bold text-slate-950 break-all">{entry.value}</h3>
+                    <p className="mt-2 text-slate-600">{entry.description}</p>
+                    <div className="mt-4 flex gap-6 text-sm">
+                      <span className="text-slate-500">📊 Жалоб: <strong className="text-slate-900">{entry.reports}</strong></span>
+                      <span className="text-slate-500">📅 Добавлено: <strong className="text-slate-900">{new Date(entry.dateAdded).toLocaleDateString('ru-RU')}</strong></span>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))
+          )}
+        </motion.div>
       )}
     </section>
   );
