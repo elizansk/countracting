@@ -1,8 +1,6 @@
-'use client'
 import Image from 'next/image';
-import { useQuery } from '@tanstack/react-query';
-import { motion } from 'framer-motion';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, Landmark, ShieldCheck } from 'lucide-react';
+import resourcesData from '@/public/data/resources.json';
 
 type Resource = {
   id: number;
@@ -11,83 +9,53 @@ type Resource = {
   description: string;
 };
 
-async function fetchResources() {
-  const response = await fetch('/data/resources.json');
-  return response.json();
-}
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
+const resources = resourcesData.resources as Resource[];
 
 export default function ResourcesPage() {
-  const { data, isLoading } = useQuery({ queryKey: ['resources'], queryFn: fetchResources });
-  const resources: Resource[] = data?.resources ?? [];
-
   return (
     <section className="mx-auto max-w-6xl space-y-8 px-4 py-10 sm:px-6">
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="rounded-lg border border-slate-200 bg-white p-6"
-      >
+      <div className="rounded-lg border border-cyan-100 bg-white p-6 shadow-sm">
         <div className="grid gap-6 lg:grid-cols-[1fr_18rem] lg:items-center">
           <div>
-            <h2 className="text-3xl font-black text-slate-950 sm:text-4xl">Куда обращаться и где проверять</h2>
+            <p className="text-sm font-bold uppercase tracking-wider text-cyan-800">Проверенные каналы</p>
+            <h2 className="mt-2 text-3xl font-black text-slate-950 sm:text-4xl">Куда обращаться и где проверять</h2>
             <p className="mt-3 max-w-3xl text-lg leading-8 text-slate-600">
-              Проверенные источники: банк, МВД, Госуслуги, Роспотребнадзор, Роскомнадзор и общественные базы жалоб.
+              Статичная подборка официальных и общественных ресурсов: банк, МВД, Госуслуги, Роспотребнадзор, Роскомнадзор, Норильск и Мошеловка.
             </p>
           </div>
           <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
             <Image src="/images/norilsk-anti-fraud-hero.png" alt="Защита семьи от мошенничества в Норильске" fill sizes="18rem" className="object-cover" />
           </div>
         </div>
-      </motion.div>
+      </div>
 
-      {isLoading ? (
-        <div className="text-center py-12">Загрузка ресурсов...</div>
-      ) : (
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="grid gap-6 lg:grid-cols-2"
-        >
-          {resources.map((resource) => (
-            <motion.a
-              key={resource.id}
-              variants={itemVariants}
-              href={resource.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group rounded-lg border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-sky-300 hover:shadow-md"
-            >
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex-1">
-                  <h3 className="text-2xl font-bold text-slate-900">{resource.name}</h3>
-                  <p className="mt-3 text-slate-700 leading-relaxed">{resource.description}</p>
-                  <div className="mt-4 inline-flex items-center gap-2 text-sky-700 font-semibold group-hover:translate-x-1 transition-transform">
-                    Посетить сайт <ExternalLink size={18} />
+      <div className="grid gap-6 lg:grid-cols-2">
+        {resources.map((resource) => (
+          <a
+            key={resource.id}
+            href={resource.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group rounded-lg border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-cyan-300 hover:shadow-md"
+          >
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex-1">
+                <div className="flex items-center gap-3">
+                  <div className="rounded-lg bg-cyan-50 p-2 text-cyan-800">
+                    {resource.name.includes('Норильск') ? <Landmark size={22} /> : <ShieldCheck size={22} />}
                   </div>
+                  <h3 className="text-2xl font-bold text-slate-900">{resource.name}</h3>
                 </div>
-                <div className="rounded-lg bg-sky-100 p-3 text-sky-700 flex-shrink-0 group-hover:scale-110 transition-transform">
-                  <ExternalLink size={24} />
+                <p className="mt-4 leading-relaxed text-slate-700">{resource.description}</p>
+                <div className="mt-4 inline-flex items-center gap-2 font-semibold text-cyan-800 transition-transform group-hover:translate-x-1">
+                  Открыть ресурс <ExternalLink size={18} />
                 </div>
               </div>
-            </motion.a>
-          ))}
-        </motion.div>
-      )}
+              <ExternalLink className="shrink-0 text-slate-300 group-hover:text-cyan-700" size={24} />
+            </div>
+          </a>
+        ))}
+      </div>
     </section>
   );
 }

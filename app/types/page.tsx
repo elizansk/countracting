@@ -1,8 +1,6 @@
-'use client'
 import Image from 'next/image';
-import { useQuery } from '@tanstack/react-query';
-import { motion } from 'framer-motion';
-import { AlertCircle, CheckCircle2, HelpCircle, Search } from 'lucide-react';
+import { AlertCircle, CheckCircle2, HelpCircle, Search, ShieldAlert } from 'lucide-react';
+import fraudTypesData from '@/public/data/fraudTypes.json';
 
 type FraudType = {
   id: number;
@@ -13,118 +11,101 @@ type FraudType = {
   whatToDo?: string[];
 };
 
-async function fetchTypes() {
-  const response = await fetch('/data/fraudTypes.json');
-  return response.json();
-}
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
+const items = fraudTypesData.types as FraudType[];
+const categories = Array.from(new Set(items.map((item) => item.category).filter(Boolean)));
 
 export default function TypesPage() {
-  const { data, isLoading } = useQuery({ queryKey: ['fraudTypes'], queryFn: fetchTypes });
-  const items: FraudType[] = data?.types ?? [];
-
   return (
     <section className="mx-auto max-w-6xl space-y-8 px-4 py-10 sm:px-6">
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="rounded-lg border border-slate-200 bg-white p-6"
-      >
-        <div className="grid gap-6 lg:grid-cols-[1fr_18rem] lg:items-center">
-          <div className="flex items-start gap-3">
-            <div className="rounded-lg bg-red-50 p-3 text-red-600">
-              <Search size={24} />
+      <div className="overflow-hidden rounded-lg border border-cyan-100 bg-white shadow-sm">
+        <div className="grid gap-0 lg:grid-cols-[1fr_22rem]">
+          <div className="p-6 sm:p-8">
+            <div className="flex items-start gap-3">
+              <div className="rounded-lg bg-red-50 p-3 text-red-600">
+                <Search size={24} />
+              </div>
+              <div>
+                <p className="text-sm font-bold uppercase tracking-wider text-cyan-800">Каталог угроз</p>
+                <h2 className="mt-2 text-3xl font-black text-slate-950 sm:text-4xl">Виды мошенничества</h2>
+                <p className="mt-3 max-w-3xl text-lg leading-8 text-slate-600">
+                  Статичный справочник с самыми важными сценариями: признаки, красные флаги и первые действия без выдуманных номеров и сомнительных баз.
+                </p>
+              </div>
             </div>
-            <div>
-              <h2 className="text-3xl font-black text-slate-950 sm:text-4xl">Схемы мошенничества</h2>
-              <p className="mt-3 max-w-3xl text-lg leading-8 text-slate-600">
-                Выберите похожую ситуацию и сравните признаки. Если вас торопят, просят код или перевод, сначала остановитесь и проверьте информацию официально.
-              </p>
+            <div className="mt-6 flex flex-wrap gap-2">
+              {categories.map((category) => (
+                <span key={category} className="rounded-full border border-cyan-200 bg-cyan-50 px-3 py-1 text-sm font-bold text-cyan-900">
+                  {category}
+                </span>
+              ))}
             </div>
           </div>
-          <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
-            <Image src="/images/phishing-check.png" alt="Проверка фишинговой страницы" fill sizes="18rem" className="object-cover" />
+          <div className="relative min-h-64">
+            <Image src="/images/phishing-check.png" alt="Проверка фишинговой страницы" fill sizes="(max-width: 1024px) 100vw, 22rem" className="object-cover" />
           </div>
         </div>
-      </motion.div>
-      {isLoading ? (
-        <div className="text-center py-12">Загрузка информации...</div>
-      ) : (
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="grid gap-6 lg:grid-cols-2"
-        >
-          {items.map((item) => (
-            <motion.article
-              key={item.id}
-              variants={itemVariants}
-              className="group rounded-lg border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-red-300 hover:shadow-md"
-            >
-              <div className="flex items-start gap-3 mb-4">
-                <div className="rounded-full bg-red-100 p-2 text-red-600">
-                  <AlertCircle size={24} />
-                </div>
+      </div>
+
+      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        {items.map((item, index) => (
+          <article
+            key={item.id}
+            className="group flex h-full flex-col overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:border-cyan-300 hover:shadow-lg"
+          >
+            <div className="border-b border-slate-100 bg-gradient-to-br from-[#071827] to-cyan-900 p-5 text-white">
+              <div className="flex items-start justify-between gap-4">
                 <div>
                   {item.category && (
-                    <p className="text-xs font-bold uppercase tracking-wider text-red-600">{item.category}</p>
+                    <p className="text-xs font-bold uppercase tracking-wider text-cyan-100">{item.category}</p>
                   )}
-                  <h3 className="mt-1 text-2xl font-bold text-slate-900">{item.name}</h3>
+                  <h3 className="mt-2 text-xl font-black leading-7">{item.name}</h3>
+                </div>
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/10 text-sm font-black text-cyan-50">
+                  {String(index + 1).padStart(2, '0')}
                 </div>
               </div>
-              <p className="text-slate-700 leading-relaxed mb-6">{item.description}</p>
-              
+            </div>
+
+            <div className="flex flex-1 flex-col p-5">
+              <p className="leading-7 text-slate-700">{item.description}</p>
+
               {item.signs && (
-                <div className="mb-6">
-                  <h4 className="font-semibold text-slate-900 flex items-center gap-2 mb-3">
-                    <HelpCircle size={18} className="text-orange-500" />
-                    Как распознать:
+                <div className="mt-5">
+                  <h4 className="flex items-center gap-2 font-black text-slate-950">
+                    <ShieldAlert size={18} className="text-red-600" />
+                    Красные флаги
                   </h4>
-                  <ul className="space-y-2 text-sm text-slate-600">
-                    {item.signs.map((sign, index) => (
-                      <li key={index} className="flex gap-3">
-                        <AlertCircle size={16} className="mt-0.5 flex-shrink-0 text-red-500" />
+                  <ul className="mt-3 space-y-2 text-sm text-slate-650">
+                    {item.signs.map((sign) => (
+                      <li key={sign} className="flex gap-2">
+                        <AlertCircle size={16} className="mt-0.5 shrink-0 text-red-500" />
                         <span>{sign}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
               )}
-              
+
               {item.whatToDo && (
-                <div>
-                  <h4 className="font-semibold text-slate-900 flex items-center gap-2 mb-3">
-                    <CheckCircle2 size={18} className="text-green-500" />
-                    Что делать:
+                <div className="mt-5 rounded-lg border border-green-200 bg-green-50 p-4">
+                  <h4 className="flex items-center gap-2 font-black text-green-950">
+                    <HelpCircle size={18} className="text-green-700" />
+                    Что сделать
                   </h4>
-                  <ul className="space-y-2 text-sm text-slate-600">
-                    {item.whatToDo.map((action, index) => (
-                      <li key={index} className="flex gap-3">
-                        <CheckCircle2 size={16} className="mt-0.5 flex-shrink-0 text-green-600" />
+                  <ul className="mt-3 space-y-2 text-sm text-green-950">
+                    {item.whatToDo.map((action) => (
+                      <li key={action} className="flex gap-2">
+                        <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-green-700" />
                         <span>{action}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
               )}
-            </motion.article>
-          ))}
-        </motion.div>
-      )}
+            </div>
+          </article>
+        ))}
+      </div>
     </section>
   );
 }

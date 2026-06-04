@@ -92,7 +92,7 @@ const workflow = [
     text: "Сохраните скриншоты, чеки, ссылки, номера, никнеймы, время звонка и записи операций.",
   },
   {
-    title: "Сообщить",
+    title: "Обратиться официально",
     text: "Подайте заявление в МВД, обратитесь в банк, по финансовым схемам проверьте данные в Банке России.",
   },
   {
@@ -133,21 +133,6 @@ const safePhrases = [
   "Я не называю коды и пароли. Если вопрос официальный, пришлите обращение через личный кабинет.",
   "Я должен посоветоваться с семьей. Срочность не является причиной переводить деньги.",
   "Я проверю ссылку через официальный сайт, а не через сообщение.",
-];
-
-const norilskContext = [
-  {
-    title: "Дальние расстояния",
-    text: "Когда родственники, банки и службы находятся далеко, мошенники чаще играют на срочности. Проверочный звонок становится обязательным правилом.",
-  },
-  {
-    title: "Северный ритм",
-    text: "В полярную ночь и после смены легче ошибиться от усталости. Любой финансовый вопрос лучше отложить хотя бы на десять секунд.",
-  },
-  {
-    title: "Городское сообщество",
-    text: "Предупредили одного человека — защитили соседей, коллег и семью. Рассказывайте о новых легендах простыми словами.",
-  },
 ];
 
 export default function Home() {
@@ -235,24 +220,6 @@ export default function Home() {
               })}
             </ol>
           </motion.div>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-        <div className="mb-5 max-w-3xl">
-          <p className="text-sm font-bold uppercase tracking-wider text-cyan-800">Норильский контекст</p>
-          <h2 className="mt-2 text-3xl font-black text-slate-950">Защита должна учитывать город, в котором мы живём</h2>
-          <p className="mt-4 leading-7 text-slate-600">
-            Северная специфика — это не только климат. Это смены, расстояния, семейные связи, работа и усталость. Поэтому главная защита — короткие понятные правила, которые легко вспомнить в стрессовой ситуации.
-          </p>
-        </div>
-        <div className="grid gap-4 md:grid-cols-3">
-          {norilskContext.map((item) => (
-            <article key={item.title} className="rounded-lg border border-cyan-100 bg-white p-5 shadow-sm">
-              <h3 className="text-xl font-black text-slate-950">{item.title}</h3>
-              <p className="mt-3 text-sm leading-6 text-slate-600">{item.text}</p>
-            </article>
-          ))}
         </div>
       </section>
 
@@ -418,10 +385,10 @@ export default function Home() {
           </p>
           <div className="mt-5 flex flex-col gap-3 sm:flex-row">
             <Link href="/safety-tips" className="inline-flex items-center justify-center gap-2 rounded-lg bg-slate-950 px-5 py-3 font-bold text-white hover:bg-slate-800">
-              Памятки для близких
+              Как защититься
             </Link>
             <Link href="/report" className="inline-flex items-center justify-center gap-2 rounded-lg border border-amber-300 bg-white px-5 py-3 font-bold text-slate-800 hover:border-amber-500">
-              Сообщить о случае
+              Черновик обращения
             </Link>
           </div>
         </div>

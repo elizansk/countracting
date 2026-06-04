@@ -1,146 +1,88 @@
-'use client'
 import Image from 'next/image';
-import { useQuery } from '@tanstack/react-query';
-import { motion } from 'framer-motion';
-import { Pie } from 'react-chartjs-2';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { BarChart3, TrendingUp } from 'lucide-react';
+import analyticsData from '@/public/data/analytics.json';
 
-ChartJS.register(ArcElement, Tooltip, Legend);
-
-type AnalyticsData = {
-  totalReports: number;
-  lastUpdated?: string;
-  typesDistribution: Array<{ name: string; value: number; color: string }>;
-  topRegions: Array<{ name: string; reports: number }>;
-};
-
-async function fetchAnalytics() {
-  const response = await fetch('/data/analytics.json');
-  return response.json();
-}
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
+const maxType = Math.max(...analyticsData.typesDistribution.map((item) => item.value));
+const maxRegion = Math.max(...analyticsData.topRegions.map((item) => item.reports));
 
 export default function AnalyticsPage() {
-  const { data, isLoading } = useQuery({ queryKey: ['analytics'], queryFn: fetchAnalytics });
-  const analytics: AnalyticsData = data || { totalReports: 0, typesDistribution: [], topRegions: [] };
-
-  const chartData = {
-    labels: analytics.typesDistribution.map(d => d.name),
-    datasets: [
-      {
-        data: analytics.typesDistribution.map(d => d.value),
-        backgroundColor: analytics.typesDistribution.map(d => d.color),
-        borderColor: '#fff',
-        borderWidth: 2,
-      },
-    ],
-  };
-
   return (
     <section className="mx-auto max-w-6xl space-y-8 px-4 py-10 sm:px-6">
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="rounded-lg border border-slate-200 bg-white p-6"
-      >
+      <div className="rounded-lg border border-cyan-100 bg-white p-6 shadow-sm">
         <div className="grid gap-6 lg:grid-cols-[1fr_18rem] lg:items-center">
           <div>
-            <h2 className="text-3xl font-black text-slate-950 sm:text-4xl">Статистика и аналитика</h2>
+            <p className="text-sm font-bold uppercase tracking-wider text-cyan-800">Статичная витрина</p>
+            <h2 className="mt-2 text-3xl font-black text-slate-950 sm:text-4xl">Статистика</h2>
             <p className="mt-3 max-w-3xl text-lg leading-8 text-slate-600">
-              Учебная витрина обращений проекта: помогает увидеть, какие схемы встречаются чаще и где пользователям нужна памятка.
+              Демонстрационная аналитика проекта: показывает, какие схемы стоит объяснять в первую очередь.
             </p>
-            {analytics.lastUpdated && (
-              <p className="mt-3 text-sm text-slate-500">Обновлено: {new Date(analytics.lastUpdated).toLocaleDateString('ru-RU')}</p>
-            )}
+            <p className="mt-3 text-sm text-slate-500">Обновлено: {new Date(analyticsData.lastUpdated).toLocaleDateString('ru-RU')}</p>
           </div>
           <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
             <Image src="/images/phishing-check.png" alt="Анализ признаков мошенничества" fill sizes="18rem" className="object-cover" />
           </div>
         </div>
-      </motion.div>
+      </div>
 
-      {isLoading ? (
-        <div className="text-center py-12">Загрузка данных...</div>
-      ) : (
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="space-y-8"
-        >
-          {/* Key Metrics */}
-          <motion.div
-            variants={itemVariants}
-            className="grid gap-6 md:grid-cols-3"
-          >
-            <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-              <div className="rounded-lg bg-blue-500 p-3 w-fit text-white">
-                <TrendingUp size={24} />
-              </div>
-              <p className="mt-4 text-sm text-slate-600">Всего обращений</p>
-              <p className="mt-1 text-4xl font-black text-slate-950">{analytics.totalReports.toLocaleString('ru-RU')}</p>
-            </div>
-            <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-              <div className="rounded-lg bg-orange-500 p-3 w-fit text-white">
-                <BarChart3 size={24} />
-              </div>
-              <p className="mt-4 text-sm text-slate-600">Типов мошенничества</p>
-              <p className="mt-1 text-4xl font-black text-slate-950">{analytics.typesDistribution.length}</p>
-            </div>
-            <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-              <div className="rounded-lg bg-red-500 p-3 w-fit text-white">
-                <TrendingUp size={24} />
-              </div>
-              <p className="mt-4 text-sm text-slate-600">Уникальные регионы</p>
-              <p className="mt-1 text-4xl font-black text-slate-950">{analytics.topRegions.length}</p>
-            </div>
-          </motion.div>
+      <div className="grid gap-6 md:grid-cols-3">
+        <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+          <div className="w-fit rounded-lg bg-cyan-700 p-3 text-white">
+            <TrendingUp size={24} />
+          </div>
+          <p className="mt-4 text-sm text-slate-600">Всего обращений</p>
+          <p className="mt-1 text-4xl font-black text-slate-950">{analyticsData.totalReports.toLocaleString('ru-RU')}</p>
+        </div>
+        <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+          <div className="w-fit rounded-lg bg-amber-500 p-3 text-white">
+            <BarChart3 size={24} />
+          </div>
+          <p className="mt-4 text-sm text-slate-600">Типов мошенничества</p>
+          <p className="mt-1 text-4xl font-black text-slate-950">{analyticsData.typesDistribution.length}</p>
+        </div>
+        <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+          <div className="w-fit rounded-lg bg-red-600 p-3 text-white">
+            <TrendingUp size={24} />
+          </div>
+          <p className="mt-4 text-sm text-slate-600">Локальных зон</p>
+          <p className="mt-1 text-4xl font-black text-slate-950">{analyticsData.topRegions.length}</p>
+        </div>
+      </div>
 
-          {/* Distribution Chart */}
-          <motion.div
-            variants={itemVariants}
-            className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm"
-          >
-            <h3 className="text-2xl font-bold text-slate-900 mb-6">Распределение по типам</h3>
-            <div className="max-w-sm mx-auto">
-              <Pie data={chartData} options={{ responsive: true, maintainAspectRatio: true }} />
-            </div>
-          </motion.div>
-
-          {/* Top Regions */}
-          {analytics.topRegions.length > 0 && (
-            <motion.div
-              variants={itemVariants}
-              className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm"
-            >
-              <h3 className="text-2xl font-bold text-slate-900 mb-6">Топ регионов</h3>
-              <div className="space-y-4">
-                {analytics.topRegions.map((region, index) => (
-                  <div key={index} className="flex items-center gap-4">
-                    <span className="text-xl font-bold text-slate-400 min-w-8">{index + 1}.</span>
-                    <span className="flex-1 text-slate-700 font-semibold">{region.name}</span>
-                    <span className="text-lg font-bold text-slate-900">{region.reports}</span>
-                  </div>
-                ))}
+      <div className="grid gap-6 lg:grid-cols-2">
+        <section className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+          <h3 className="text-2xl font-black text-slate-950">Распределение по типам</h3>
+          <div className="mt-6 space-y-4">
+            {analyticsData.typesDistribution.map((item) => (
+              <div key={item.name}>
+                <div className="flex justify-between gap-4 text-sm font-semibold text-slate-700">
+                  <span>{item.name}</span>
+                  <span>{item.value}%</span>
+                </div>
+                <div className="mt-2 h-3 overflow-hidden rounded-full bg-slate-100">
+                  <div className="h-full rounded-full" style={{ width: `${(item.value / maxType) * 100}%`, backgroundColor: item.color }} />
+                </div>
               </div>
-            </motion.div>
-          )}
-        </motion.div>
-      )}
+            ))}
+          </div>
+        </section>
+
+        <section className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+          <h3 className="text-2xl font-black text-slate-950">Локальная витрина</h3>
+          <div className="mt-6 space-y-4">
+            {analyticsData.topRegions.map((region, index) => (
+              <div key={region.name}>
+                <div className="flex items-center justify-between gap-4">
+                  <span className="font-semibold text-slate-700">{index + 1}. {region.name}</span>
+                  <span className="font-black text-slate-950">{region.reports}</span>
+                </div>
+                <div className="mt-2 h-3 overflow-hidden rounded-full bg-cyan-50">
+                  <div className="h-full rounded-full bg-cyan-700" style={{ width: `${(region.reports / maxRegion) * 100}%` }} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
     </section>
   );
 }
