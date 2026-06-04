@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { ExternalLink, Landmark, ShieldCheck } from 'lucide-react';
 import resourcesData from '@/public/data/resources.json';
+import { assetPath } from '@/lib/paths';
 
 type Resource = {
   id: number;
@@ -24,7 +25,7 @@ export default function ResourcesPage() {
             </p>
           </div>
           <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
-            <Image src="/images/norilsk-anti-fraud-hero.png" alt="Защита семьи от мошенничества в Норильске" fill sizes="18rem" className="object-cover" />
+            <Image src={assetPath("/images/norilsk-anti-fraud-hero.png")} alt="Защита семьи от мошенничества в Норильске" fill sizes="18rem" className="object-cover" />
           </div>
         </div>
       </div>

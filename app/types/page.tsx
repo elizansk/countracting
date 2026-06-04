@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { AlertCircle, CheckCircle2, HelpCircle, Search, ShieldAlert } from 'lucide-react';
 import fraudTypesData from '@/public/data/fraudTypes.json';
+import { assetPath } from '@/lib/paths';
 
 type FraudType = {
   id: number;
@@ -41,7 +42,7 @@ export default function TypesPage() {
             </div>
           </div>
           <div className="relative min-h-64">
-            <Image src="/images/phishing-check.png" alt="Проверка фишинговой страницы" fill sizes="(max-width: 1024px) 100vw, 22rem" className="object-cover" />
+            <Image src={assetPath("/images/phishing-check.png")} alt="Проверка фишинговой страницы" fill sizes="(max-width: 1024px) 100vw, 22rem" className="object-cover" />
           </div>
         </div>
       </div>

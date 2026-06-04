@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { BarChart3, TrendingUp } from 'lucide-react';
 import analyticsData from '@/public/data/analytics.json';
+import { assetPath } from '@/lib/paths';
 
 const maxType = Math.max(...analyticsData.typesDistribution.map((item) => item.value));
 const maxRegion = Math.max(...analyticsData.topRegions.map((item) => item.reports));
@@ -19,7 +20,7 @@ export default function AnalyticsPage() {
             <p className="mt-3 text-sm text-slate-500">Обновлено: {new Date(analyticsData.lastUpdated).toLocaleDateString('ru-RU')}</p>
           </div>
           <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
-            <Image src="/images/phishing-check.png" alt="Анализ признаков мошенничества" fill sizes="18rem" className="object-cover" />
+            <Image src={assetPath("/images/phishing-check.png")} alt="Анализ признаков мошенничества" fill sizes="18rem" className="object-cover" />
           </div>
         </div>
       </div>

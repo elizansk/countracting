@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import ScamRiskCheck from "@/components/ScamRiskCheck";
+import { assetPath } from "@/lib/paths";
 import {
   AlertTriangle,
   ArrowRight,
@@ -60,17 +61,17 @@ const visualGuides = [
   {
     title: "Телефонный звонок",
     text: "Если звонящий просит код или перевод, кладите трубку и звоните в банк сами.",
-    image: "/images/phone-scam.png",
+    image: assetPath("/images/phone-scam.png"),
   },
   {
     title: "Фишинговая ссылка",
     text: "Проверяйте домен, отправителя и не вводите данные по ссылке из сообщения.",
-    image: "/images/phishing-check.png",
+    image: assetPath("/images/phishing-check.png"),
   },
   {
     title: "Семейная защита",
     text: "Договоритесь с близкими о проверочном звонке перед любым переводом.",
-    image: "/images/family-safety.png",
+    image: assetPath("/images/family-safety.png"),
   },
 ];
 
@@ -140,7 +141,7 @@ export default function Home() {
     <main className="bg-cyan-50">
       <section className="relative min-h-[calc(100vh-84px)] overflow-hidden border-b border-cyan-100 bg-[#071827]">
         <Image
-          src="/images/norilsk-anti-fraud-hero.png"
+          src={assetPath("/images/norilsk-anti-fraud-hero.png")}
           alt="Семья в Норильске проверяет подозрительное сообщение на телефоне"
           fill
           priority

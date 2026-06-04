@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { CheckCircle2, Shield, Zap, Lock } from 'lucide-react';
 import ScamRiskCheck from '@/components/ScamRiskCheck';
 import safetyTipsData from '@/public/data/safetyTips.json';
+import { assetPath } from '@/lib/paths';
 
 type SafetyTip = {
   id: number;
@@ -27,7 +28,7 @@ export default function SafetyTipsPage() {
             </p>
           </div>
           <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
-            <Image src="/images/family-safety.png" alt="Семья обсуждает правила цифровой безопасности" fill sizes="18rem" className="object-cover" />
+            <Image src={assetPath("/images/family-safety.png")} alt="Семья обсуждает правила цифровой безопасности" fill sizes="18rem" className="object-cover" />
           </div>
         </div>
       </div>

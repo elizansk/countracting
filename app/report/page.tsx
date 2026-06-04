@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { type FormEvent, useState } from 'react';
 import { CheckCircle2, Copy, Info, Send } from 'lucide-react';
+import { assetPath } from '@/lib/paths';
 
 type FormData = {
   fraudType: string;
@@ -66,7 +67,7 @@ export default function ReportPage() {
             </p>
           </div>
           <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
-            <Image src="/images/phone-scam.png" alt="Остановка подозрительного звонка" fill sizes="18rem" className="object-cover" />
+            <Image src={assetPath("/images/phone-scam.png")} alt="Остановка подозрительного звонка" fill sizes="18rem" className="object-cover" />
           </div>
         </div>
       </div>

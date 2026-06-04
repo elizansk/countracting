@@ -53,6 +53,18 @@ npm run build
 out/
 ```
 
+## GitHub Pages
+
+Сайт настроен для деплоя через GitHub Actions. При пуше в `main` workflow собирает статичный экспорт и публикует папку `out/` на GitHub Pages.
+
+Для репозитория `elizansk/countracting` публичный адрес будет:
+
+```text
+https://elizansk.github.io/countracting/
+```
+
+В настройках GitHub нужно выбрать Pages source: **GitHub Actions**.
+
 ## Структура
 
 ```text
