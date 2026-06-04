@@ -1,0 +1,28 @@
+{
+  "entries": [
+    {
+      "id": 1,
+      "type": "phone",
+      "value": "+7 (921) 555-0123",
+      "description": "Звонили якобы из банка и просили код.",
+      "reports": 127,
+      "dateAdded": "2025-11-15"
+    },
+    {
+      "id": 2,
+      "type": "website",
+      "value": "investcrypto-fast.ru",
+      "description": "Фишинговый сайт, выдающий себя за инвестплатформу.",
+      "reports": 342,
+      "dateAdded": "2025-11-10"
+    },
+    {
+      "id": 3,
+      "type": "telegram",
+      "value": "@money_maker_bot",
+      "description": "Телеграм-бот предлагает быстрые деньги и ворует средства.",
+      "reports": 89,
+      "dateAdded": "2025-11-20"
+    }
+  ]
+}
