@@ -16,7 +16,7 @@ export async function POST(request: Request) {
     fs.mkdirSync(path.dirname(reportFile), { recursive: true });
     fs.writeFileSync(reportFile, JSON.stringify([...list, report], null, 2));
     return NextResponse.json({ message: 'Сообщение принято.', report }, { status: 201 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Не удалось сохранить сообщение.' }, { status: 500 });
   }
 }

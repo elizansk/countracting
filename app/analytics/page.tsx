@@ -1,4 +1,5 @@
 'use client'
+import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { Pie } from 'react-chartjs-2';
@@ -9,6 +10,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 type AnalyticsData = {
   totalReports: number;
+  lastUpdated?: string;
   typesDistribution: Array<{ name: string; value: number; color: string }>;
   topRegions: Array<{ name: string; reports: number }>;
 };
@@ -48,14 +50,27 @@ export default function AnalyticsPage() {
   };
 
   return (
-    <section className="space-y-12 py-10">
+    <section className="mx-auto max-w-6xl space-y-8 px-4 py-10 sm:px-6">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
+        className="rounded-lg border border-slate-200 bg-white p-6"
       >
-        <h2 className="text-4xl font-black text-slate-950">Статистика и аналитика</h2>
-        <p className="mt-3 text-lg text-slate-600">Анализ обращений и распределение типов мошенничества.</p>
+        <div className="grid gap-6 lg:grid-cols-[1fr_18rem] lg:items-center">
+          <div>
+            <h2 className="text-3xl font-black text-slate-950 sm:text-4xl">Статистика и аналитика</h2>
+            <p className="mt-3 max-w-3xl text-lg leading-8 text-slate-600">
+              Учебная витрина обращений проекта: помогает увидеть, какие схемы встречаются чаще и где пользователям нужна памятка.
+            </p>
+            {analytics.lastUpdated && (
+              <p className="mt-3 text-sm text-slate-500">Обновлено: {new Date(analytics.lastUpdated).toLocaleDateString('ru-RU')}</p>
+            )}
+          </div>
+          <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
+            <Image src="/images/phishing-check.png" alt="Анализ признаков мошенничества" fill sizes="18rem" className="object-cover" />
+          </div>
+        </div>
       </motion.div>
 
       {isLoading ? (
@@ -72,22 +87,22 @@ export default function AnalyticsPage() {
             variants={itemVariants}
             className="grid gap-6 md:grid-cols-3"
           >
-            <div className="rounded-3xl border-2 border-slate-200 bg-gradient-to-br from-blue-50 to-blue-100 p-8 shadow-sm">
-              <div className="rounded-full bg-blue-500 p-3 w-fit text-white">
+            <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+              <div className="rounded-lg bg-blue-500 p-3 w-fit text-white">
                 <TrendingUp size={24} />
               </div>
               <p className="mt-4 text-sm text-slate-600">Всего обращений</p>
               <p className="mt-1 text-4xl font-black text-slate-950">{analytics.totalReports.toLocaleString('ru-RU')}</p>
             </div>
-            <div className="rounded-3xl border-2 border-slate-200 bg-gradient-to-br from-orange-50 to-orange-100 p-8 shadow-sm">
-              <div className="rounded-full bg-orange-500 p-3 w-fit text-white">
+            <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+              <div className="rounded-lg bg-orange-500 p-3 w-fit text-white">
                 <BarChart3 size={24} />
               </div>
               <p className="mt-4 text-sm text-slate-600">Типов мошенничества</p>
               <p className="mt-1 text-4xl font-black text-slate-950">{analytics.typesDistribution.length}</p>
             </div>
-            <div className="rounded-3xl border-2 border-slate-200 bg-gradient-to-br from-red-50 to-red-100 p-8 shadow-sm">
-              <div className="rounded-full bg-red-500 p-3 w-fit text-white">
+            <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+              <div className="rounded-lg bg-red-500 p-3 w-fit text-white">
                 <TrendingUp size={24} />
               </div>
               <p className="mt-4 text-sm text-slate-600">Уникальные регионы</p>
@@ -98,7 +113,7 @@ export default function AnalyticsPage() {
           {/* Distribution Chart */}
           <motion.div
             variants={itemVariants}
-            className="rounded-3xl border-2 border-slate-200 bg-white p-8 shadow-sm"
+            className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm"
           >
             <h3 className="text-2xl font-bold text-slate-900 mb-6">Распределение по типам</h3>
             <div className="max-w-sm mx-auto">
@@ -110,7 +125,7 @@ export default function AnalyticsPage() {
           {analytics.topRegions.length > 0 && (
             <motion.div
               variants={itemVariants}
-              className="rounded-3xl border-2 border-slate-200 bg-white p-8 shadow-sm"
+              className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm"
             >
               <h3 className="text-2xl font-bold text-slate-900 mb-6">Топ регионов</h3>
               <div className="space-y-4">

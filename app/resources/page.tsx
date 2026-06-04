@@ -1,4 +1,5 @@
 'use client'
+import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { ExternalLink } from 'lucide-react';
@@ -33,14 +34,24 @@ export default function ResourcesPage() {
   const resources: Resource[] = data?.resources ?? [];
 
   return (
-    <section className="space-y-12 py-10">
+    <section className="mx-auto max-w-6xl space-y-8 px-4 py-10 sm:px-6">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
+        className="rounded-lg border border-slate-200 bg-white p-6"
       >
-        <h2 className="text-4xl font-black text-slate-950">Официальные ресурсы</h2>
-        <p className="mt-3 text-lg text-slate-600">Ссылки на проверенные государственные и общественные организации для защиты прав граждан.</p>
+        <div className="grid gap-6 lg:grid-cols-[1fr_18rem] lg:items-center">
+          <div>
+            <h2 className="text-3xl font-black text-slate-950 sm:text-4xl">Куда обращаться и где проверять</h2>
+            <p className="mt-3 max-w-3xl text-lg leading-8 text-slate-600">
+              Проверенные источники: банк, МВД, Госуслуги, Роспотребнадзор, Роскомнадзор и общественные базы жалоб.
+            </p>
+          </div>
+          <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
+            <Image src="/images/anti-fraud-hero.png" alt="Защита семьи от мошенничества" fill sizes="18rem" className="object-cover" />
+          </div>
+        </div>
       </motion.div>
 
       {isLoading ? (
@@ -59,17 +70,17 @@ export default function ResourcesPage() {
               href={resource.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group rounded-3xl border-2 border-slate-200 bg-gradient-to-br from-white to-slate-50 p-8 shadow-sm transition hover:shadow-lg hover:border-sky-300 hover:-translate-y-1"
+              className="group rounded-lg border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-sky-300 hover:shadow-md"
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
                   <h3 className="text-2xl font-bold text-slate-900">{resource.name}</h3>
                   <p className="mt-3 text-slate-700 leading-relaxed">{resource.description}</p>
-                  <div className="mt-4 inline-flex items-center gap-2 text-sky-600 font-semibold group-hover:translate-x-1 transition-transform">
+                  <div className="mt-4 inline-flex items-center gap-2 text-sky-700 font-semibold group-hover:translate-x-1 transition-transform">
                     Посетить сайт <ExternalLink size={18} />
                   </div>
                 </div>
-                <div className="rounded-full bg-sky-100 p-3 text-sky-600 flex-shrink-0 group-hover:scale-110 transition-transform">
+                <div className="rounded-lg bg-sky-100 p-3 text-sky-700 flex-shrink-0 group-hover:scale-110 transition-transform">
                   <ExternalLink size={24} />
                 </div>
               </div>

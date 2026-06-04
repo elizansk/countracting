@@ -1,8 +1,9 @@
 'use client'
+import Image from 'next/image';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
-import { Send, CheckCircle2 } from 'lucide-react';
+import { Send, CheckCircle2, Info } from 'lucide-react';
 
 type FormData = {
   fraudType: string;
@@ -52,21 +53,36 @@ export default function ReportPage() {
   };
 
   return (
-    <section className="space-y-12 py-10">
+    <section className="mx-auto max-w-6xl space-y-8 px-4 py-10 sm:px-6">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
+        className="rounded-lg border border-slate-200 bg-white p-6"
       >
-        <h2 className="text-4xl font-black text-slate-950">Сообщить о мошеннике</h2>
-        <p className="mt-3 text-lg text-slate-600">Помогите нам защитить других граждан, заполнив форму с информацией о мошеннике.</p>
+        <div className="grid gap-6 lg:grid-cols-[1fr_18rem] lg:items-center">
+          <div>
+            <h2 className="text-3xl font-black text-slate-950 sm:text-4xl">Сообщить о подозрительном случае</h2>
+            <p className="mt-3 max-w-3xl text-lg leading-8 text-slate-600">
+              Форма помогает собрать факты в одном месте. Для официального расследования дополнительно обратитесь в банк и МВД.
+            </p>
+          </div>
+          <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
+            <Image src="/images/phone-scam.png" alt="Остановка подозрительного звонка" fill sizes="18rem" className="object-cover" />
+          </div>
+        </div>
       </motion.div>
+
+      <div className="flex max-w-2xl gap-3 rounded-lg border border-sky-200 bg-sky-50 p-4 text-sm leading-6 text-sky-950">
+        <Info className="mt-0.5 shrink-0" size={18} />
+        <p>Не указывайте пароли, коды из SMS, полные данные карты и другие секретные сведения. Достаточно описать схему, контакты мошенника и доказательства.</p>
+      </div>
 
       {success && (
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="rounded-3xl border-2 border-green-200 bg-gradient-to-r from-green-50 to-emerald-50 p-6 flex items-start gap-4"
+          className="rounded-lg border border-green-200 bg-green-50 p-6 flex items-start gap-4"
         >
           <CheckCircle2 className="text-green-600 flex-shrink-0" size={24} />
           <div>
@@ -81,14 +97,14 @@ export default function ReportPage() {
         initial="hidden"
         animate="visible"
         onSubmit={handleSubmit(onSubmit)}
-        className="max-w-2xl space-y-6 rounded-3xl border-2 border-slate-200 bg-white p-8 shadow-sm"
+        className="max-w-2xl space-y-6 rounded-lg border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
       >
         {/* Fraud Type */}
         <motion.div variants={itemVariants} className="space-y-2">
           <label className="block text-sm font-semibold text-slate-900">Тип мошенничества *</label>
           <select
             {...register('fraudType', { required: 'Выберите тип мошенничества' })}
-            className="w-full rounded-2xl border-2 border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
+            className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
           >
             <option value="">-- Выберите тип --</option>
             <option value="phone">Телефонное мошенничество</option>
@@ -107,7 +123,7 @@ export default function ReportPage() {
           <textarea
             {...register('description', { required: 'Опишите ситуацию' })}
             placeholder="Расскажите в деталях, что произошло..."
-            className="w-full rounded-2xl border-2 border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200 min-h-32 resize-none"
+            className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200 min-h-32 resize-none"
           />
           {errors.description && <p className="text-sm text-red-600">{errors.description.message}</p>}
         </motion.div>
@@ -119,7 +135,7 @@ export default function ReportPage() {
             type="email"
             {...register('reporterEmail', { required: 'Укажите email' })}
             placeholder="your@email.com"
-            className="w-full rounded-2xl border-2 border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
+            className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
           />
           {errors.reporterEmail && <p className="text-sm text-red-600">{errors.reporterEmail.message}</p>}
         </motion.div>
@@ -131,7 +147,7 @@ export default function ReportPage() {
             type="text"
             {...register('contactInfo')}
             placeholder="Телефон, email, ник в соцсети..."
-            className="w-full rounded-2xl border-2 border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
+            className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
           />
         </motion.div>
 
@@ -141,7 +157,7 @@ export default function ReportPage() {
           <textarea
             {...register('evidence')}
             placeholder="Скопируйте ссылки на сайты, номера счетов или другие доказательства..."
-            className="w-full rounded-2xl border-2 border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200 min-h-24 resize-none"
+            className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200 min-h-24 resize-none"
           />
         </motion.div>
 
@@ -150,7 +166,7 @@ export default function ReportPage() {
           variants={itemVariants}
           type="submit"
           disabled={isSubmitting}
-          className="w-full flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-red-600 to-orange-500 px-8 py-4 text-lg font-bold text-white shadow-lg shadow-red-500/30 transition hover:shadow-xl hover:scale-105 disabled:opacity-50"
+          className="w-full flex items-center justify-center gap-2 rounded-lg bg-red-600 px-8 py-4 text-lg font-bold text-white shadow-sm transition hover:bg-red-700 disabled:opacity-50"
         >
           <Send size={20} />
           {isSubmitting ? 'Отправка...' : 'Отправить сообщение'}
