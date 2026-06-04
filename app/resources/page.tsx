@@ -15,7 +15,7 @@ const resources = resourcesData.resources as Resource[];
 export default function ResourcesPage() {
   return (
     <section className="mx-auto max-w-6xl space-y-8 px-4 py-10 sm:px-6">
-      <div className="rounded-lg border border-cyan-100 bg-white p-6 shadow-sm">
+      <div className="ice-panel rounded-lg p-6">
         <div className="grid gap-6 lg:grid-cols-[1fr_18rem] lg:items-center">
           <div>
             <p className="text-sm font-bold uppercase tracking-wider text-cyan-800">Проверенные каналы</p>
@@ -37,7 +37,7 @@ export default function ResourcesPage() {
             href={resource.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="group rounded-lg border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-cyan-300 hover:shadow-md"
+            className="signal-card group rounded-lg border border-slate-200 bg-white p-6 pt-8 shadow-sm transition hover:-translate-y-1 hover:border-cyan-300 hover:shadow-md"
           >
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1">

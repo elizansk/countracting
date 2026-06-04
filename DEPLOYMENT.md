@@ -54,12 +54,6 @@ vercel
 3. Добавьте ваш домен
 4. Следуйте инструкциям для DNS конфигурации
 
-### Мониторинг сайта
-
-- **Analytics**: https://vercel.com/analytics
-- **Logs**: Vercel показывает logs в реальном времени
-- **Performance**: Встроенный Performance monitoring
-
 ### Автоматические обновления
 
 Каждый `git push` в `main` ветку будет:

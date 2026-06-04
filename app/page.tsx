@@ -11,11 +11,14 @@ import {
   BookOpen,
   CheckCircle2,
   Clock,
+  CreditCard,
   FileText,
   HeartHandshake,
+  KeyRound,
   Lock,
   PhoneOff,
   Shield,
+  Smartphone,
 } from "lucide-react";
 
 const steps = [
@@ -51,7 +54,7 @@ const checks = [
 ];
 
 const quickLinks = [
-  { title: "Виды мошенничества", text: "12 популярных схем с признаками и действиями", href: "/types", icon: AlertTriangle },
+  { title: "Виды мошенничества", text: "Популярные схемы с признаками и действиями", href: "/types", icon: AlertTriangle },
   { title: "Первые действия", text: "Пошаговый план, если звонят, списали деньги или взломали аккаунт", href: "/safety-tips", icon: Clock },
   { title: "Советы семье", text: "Памятки для родителей, подростков и пожилых родственников", href: "/safety-tips", icon: HeartHandshake },
   { title: "Официальные ресурсы", text: "Куда обращаться и где проверять информацию", href: "/resources", icon: BookOpen },
@@ -136,10 +139,56 @@ const safePhrases = [
   "Я проверю ссылку через официальный сайт, а не через сообщение.",
 ];
 
+const officialRules = [
+  {
+    icon: CreditCard,
+    title: "«Безопасного счета» не существует",
+    text: "Банк, полиция, прокуратура или Банк России не просят переводить деньги на специальный счет для защиты. Такой перевод почти всегда сценарий мошенников.",
+  },
+  {
+    icon: KeyRound,
+    title: "Коды нельзя диктовать никому",
+    text: "SMS-код, push-код, пароль, PIN и CVV подтверждают действие от вашего имени. Сотрудникам банка и ведомств эти данные не нужны.",
+  },
+  {
+    icon: Smartphone,
+    title: "Удаленный доступ опасен",
+    text: "Если незнакомец просит установить приложение, показать экран или открыть банк во время звонка, он может получить контроль над деньгами и аккаунтами.",
+  },
+  {
+    icon: Shield,
+    title: "Проверка только через официальный канал",
+    text: "Не перезванивайте по номеру из сообщения. Откройте официальный сайт сами, используйте номер на карте, личный кабинет или официальный прием обращений.",
+  },
+];
+
+const sourceCards = [
+  {
+    title: "Банк России",
+    text: "Финансовые схемы, проверка организаций, признаки пирамид и рекомендации по защите денег.",
+    href: "https://www.cbr.ru/information_security/pmp/",
+  },
+  {
+    title: "МВД России",
+    text: "Официальная подача обращений о преступлениях, включая телефонное и интернет-мошенничество.",
+    href: "https://мвд.рф/request_main",
+  },
+  {
+    title: "Госуслуги",
+    text: "Защита учетной записи, восстановление доступа и официальные сервисы вроде самозапрета на кредиты.",
+    href: "https://www.gosuslugi.ru/",
+  },
+  {
+    title: "Администрация Норильска",
+    text: "Проверка городских новостей, объявлений, контактов и сообщений о муниципальных услугах.",
+    href: "https://norilsk-city.ru/",
+  },
+];
+
 export default function Home() {
   return (
-    <main className="bg-cyan-50">
-      <section className="relative min-h-[calc(100vh-84px)] overflow-hidden border-b border-cyan-100 bg-[#071827]">
+    <main>
+      <section className="relative min-h-[calc(100vh-116px)] overflow-hidden border-b border-cyan-100 bg-[#071827]">
         <Image
           src={assetPath("/images/norilsk-anti-fraud-hero.png")}
           alt="Семья в Норильске проверяет подозрительное сообщение на телефоне"
@@ -149,8 +198,10 @@ export default function Home() {
           className="object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-[#071827] via-[#071827]/82 to-[#071827]/18" />
+        <div className="polar-grid absolute inset-0 opacity-30" />
         <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-cyan-50 to-transparent" />
-        <div className="relative mx-auto grid min-h-[calc(100vh-84px)] max-w-6xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:py-14">
+        <div className="absolute inset-x-0 top-0 h-1 aurora-band" />
+        <div className="relative mx-auto grid min-h-[calc(100vh-116px)] max-w-6xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:py-14">
           <motion.div
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
@@ -159,7 +210,7 @@ export default function Home() {
           >
             <div className="inline-flex w-fit items-center gap-2 rounded-full border border-white/25 bg-white/15 px-3 py-1 text-sm font-semibold text-white backdrop-blur">
               <Shield size={16} />
-              Северный антифрод-навигатор
+              Северный навигатор безопасности
             </div>
             <h1 className="mt-5 max-w-3xl text-4xl font-black leading-tight text-white sm:text-5xl">
               Норильск против мошенников: защита для себя и близких
@@ -167,13 +218,6 @@ export default function Home() {
             <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-100">
               Арктический город живёт в своём ритме, но мошенники используют одни и те же приёмы: срочность, страх, коды, ссылки и давление. Здесь собраны понятные сценарии, первые действия и официальные ресурсы.
             </p>
-            <div className="mt-6 grid max-w-xl grid-cols-3 gap-3">
-              {['Норильск', 'семья', 'цифровая защита'].map((item) => (
-                <div key={item} className="rounded-lg border border-cyan-200/30 bg-cyan-100/10 px-3 py-2 text-center text-sm font-bold text-cyan-50 backdrop-blur">
-                  {item}
-                </div>
-              ))}
-            </div>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/safety-tips"
@@ -195,12 +239,12 @@ export default function Home() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, delay: 0.1 }}
-            className="my-auto rounded-lg border border-cyan-200/20 bg-[#071827]/86 p-5 text-white shadow-2xl shadow-black/30 backdrop-blur"
+            className="signal-card my-auto rounded-lg border border-cyan-200/20 bg-[#071827]/88 p-5 pt-7 text-white shadow-2xl shadow-black/30 backdrop-blur"
           >
             <div className="flex items-center gap-3 border-b border-white/10 pb-4">
               <Clock className="text-red-300" size={24} />
               <div>
-                <p className="text-sm font-semibold uppercase tracking-wider text-red-200">Первые 5 минут</p>
+                <p className="text-sm font-semibold uppercase tracking-wider text-red-200">Если вас торопят</p>
                 <h2 className="text-2xl font-black">Экстренный план</h2>
               </div>
             </div>
@@ -229,6 +273,32 @@ export default function Home() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+        <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+          <div>
+            <p className="text-sm font-bold uppercase tracking-wider text-red-700">Официальная логика защиты</p>
+            <h2 className="mt-2 text-3xl font-black text-slate-950">Четыре правила, которые ломают большинство схем</h2>
+            <p className="mt-4 leading-7 text-slate-600">
+              Эти правила основаны на рекомендациях официальных ресурсов и подходят для любой легенды: банк, полиция, доставка, Госуслуги, инвестиции или просьба от знакомого.
+            </p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {officialRules.map((rule) => {
+              const Icon = rule.icon;
+              return (
+                <article key={rule.title} className="signal-card rounded-lg border border-slate-200 bg-white p-5 pt-7 shadow-sm transition hover:-translate-y-1 hover:shadow-md">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-red-50 text-red-700">
+                    <Icon size={22} />
+                  </div>
+                  <h3 className="mt-4 text-lg font-black text-slate-950">{rule.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">{rule.text}</p>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
         <div className="mb-5 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
           <div>
             <p className="text-sm font-bold uppercase tracking-wider text-cyan-800">Живые сценарии</p>
@@ -240,14 +310,14 @@ export default function Home() {
         </div>
         <div className="grid gap-4 md:grid-cols-3">
           {visualGuides.map((guide) => (
-            <article key={guide.title} className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
+            <article key={guide.title} className="group overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md">
               <div className="relative aspect-square">
                 <Image
                   src={guide.image}
                   alt={guide.title}
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover"
+                  className="object-cover transition duration-500 group-hover:scale-105"
                 />
               </div>
               <div className="p-5">
@@ -267,7 +337,7 @@ export default function Home() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-sky-300 hover:shadow-md"
+                className="signal-card rounded-lg border border-slate-200 bg-white p-5 pt-7 shadow-sm transition hover:-translate-y-1 hover:border-sky-300 hover:shadow-md"
               >
                 <Icon className="text-sky-700" size={26} />
                 <h2 className="mt-4 text-lg font-black text-slate-950">{item.title}</h2>
@@ -288,7 +358,7 @@ export default function Home() {
         </div>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {audienceCards.map((card) => (
-            <article key={card.title} className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+            <article key={card.title} className="ice-panel rounded-lg p-5">
               <h3 className="text-lg font-black text-slate-950">{card.title}</h3>
               <p className="mt-3 text-sm leading-6 text-slate-600">{card.text}</p>
             </article>
@@ -302,12 +372,12 @@ export default function Home() {
             <p className="text-sm font-bold uppercase tracking-wider text-red-700">Как работает защита</p>
             <h2 className="mt-2 text-3xl font-black text-slate-950">Не просто прочитать, а пройти весь путь безопасности</h2>
             <p className="mt-4 leading-7 text-slate-600">
-              Сайт устроен как антифрод-навигатор: сначала помогает распознать давление, затем дает короткий план действий и отправляет к официальным каналам.
+              Сайт устроен как навигатор безопасности: сначала помогает распознать давление, затем дает короткий план действий и отправляет к официальным каналам.
             </p>
           </div>
           <div className="mt-7 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {workflow.map((item, index) => (
-              <div key={item.title} className="rounded-lg border border-slate-200 bg-slate-50 p-5">
+              <div key={item.title} className="signal-card rounded-lg border border-slate-200 bg-slate-50 p-5 pt-7">
                 <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-950 text-sm font-black text-white">
                   {index + 1}
                 </div>
@@ -378,6 +448,26 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="border-y border-slate-200 bg-white">
+        <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+          <div className="max-w-3xl">
+            <p className="text-sm font-bold uppercase tracking-wider text-cyan-800">Открытые источники</p>
+            <h2 className="mt-2 text-3xl font-black text-slate-950">Информация не из слухов, а из проверяемых каналов</h2>
+            <p className="mt-4 leading-7 text-slate-600">
+              На сайте нет «опасных номеров» без доказательств. Вместо этого собраны устойчивые признаки мошенничества и ссылки, где человек может проверить ситуацию сам.
+            </p>
+          </div>
+          <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {sourceCards.map((source) => (
+              <a key={source.title} href={source.href} target="_blank" rel="noopener noreferrer" className="rounded-lg border border-slate-200 bg-slate-50 p-5 transition hover:-translate-y-1 hover:border-cyan-300 hover:bg-white hover:shadow-md">
+                <h3 className="text-lg font-black text-slate-950">{source.title}</h3>
+                <p className="mt-3 text-sm leading-6 text-slate-600">{source.text}</p>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
         <div className="rounded-lg border border-amber-200 bg-amber-50 p-6">
           <h2 className="text-2xl font-black text-slate-950">Семейное правило безопасности</h2>
@@ -388,8 +478,8 @@ export default function Home() {
             <Link href="/safety-tips" className="inline-flex items-center justify-center gap-2 rounded-lg bg-slate-950 px-5 py-3 font-bold text-white hover:bg-slate-800">
               Как защититься
             </Link>
-            <Link href="/report" className="inline-flex items-center justify-center gap-2 rounded-lg border border-amber-300 bg-white px-5 py-3 font-bold text-slate-800 hover:border-amber-500">
-              Черновик обращения
+            <Link href="/resources" className="inline-flex items-center justify-center gap-2 rounded-lg border border-amber-300 bg-white px-5 py-3 font-bold text-slate-800 hover:border-amber-500">
+              Куда обращаться
             </Link>
           </div>
         </div>

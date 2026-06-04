@@ -18,6 +18,56 @@ body {
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
 
+.polar-page {
+  background:
+    linear-gradient(120deg, rgba(8, 47, 73, 0.06), transparent 34%),
+    linear-gradient(240deg, rgba(20, 184, 166, 0.10), transparent 42%),
+    linear-gradient(#ecfeff, #f8fafc 48%, #ecfeff);
+}
+
+.polar-grid {
+  background-image:
+    linear-gradient(rgba(8, 145, 178, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(8, 145, 178, 0.12) 1px, transparent 1px);
+  background-size: 34px 34px;
+}
+
+.aurora-band {
+  background:
+    linear-gradient(100deg, rgba(220, 38, 38, 0.92), rgba(14, 116, 144, 0.95) 48%, rgba(22, 163, 74, 0.86));
+}
+
+.ice-panel {
+  border: 1px solid rgba(103, 232, 249, 0.28);
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 20px 70px rgba(15, 23, 42, 0.10);
+  backdrop-filter: blur(14px);
+}
+
+.signal-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.signal-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 4px;
+  background: linear-gradient(90deg, #dc2626, #0891b2, #16a34a);
+}
+
+.diagonal-safety {
+  background-image:
+    repeating-linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.12) 0,
+      rgba(255, 255, 255, 0.12) 10px,
+      transparent 10px,
+      transparent 22px
+    );
+}
+
 ::selection {
   background: #a7f3d0;
   color: #071827;

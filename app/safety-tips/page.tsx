@@ -18,7 +18,7 @@ const items = safetyTipsData.tips as SafetyTip[];
 export default function SafetyTipsPage() {
   return (
     <section className="mx-auto max-w-6xl space-y-8 px-4 py-10 sm:px-6">
-      <div className="rounded-lg border border-cyan-100 bg-white p-6 shadow-sm">
+      <div className="ice-panel rounded-lg p-6">
         <div className="grid gap-6 lg:grid-cols-[1fr_18rem] lg:items-center">
           <div>
             <p className="text-sm font-bold uppercase tracking-wider text-cyan-800">Статичные памятки</p>
@@ -41,7 +41,7 @@ export default function SafetyTipsPage() {
           return (
             <article
               key={tip.id}
-              className="group rounded-lg border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-green-300 hover:shadow-md"
+              className="signal-card group rounded-lg border border-slate-200 bg-white p-6 pt-8 shadow-sm transition hover:-translate-y-1 hover:border-green-300 hover:shadow-md"
             >
               <div className="w-fit rounded-lg bg-green-100 p-3 text-green-700 transition-transform group-hover:scale-110">
                 <Icon size={28} />

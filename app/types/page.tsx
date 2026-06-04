@@ -18,7 +18,7 @@ const categories = Array.from(new Set(items.map((item) => item.category).filter(
 export default function TypesPage() {
   return (
     <section className="mx-auto max-w-6xl space-y-8 px-4 py-10 sm:px-6">
-      <div className="overflow-hidden rounded-lg border border-cyan-100 bg-white shadow-sm">
+      <div className="ice-panel overflow-hidden rounded-lg">
         <div className="grid gap-0 lg:grid-cols-[1fr_22rem]">
           <div className="p-6 sm:p-8">
             <div className="flex items-start gap-3">
@@ -51,7 +51,7 @@ export default function TypesPage() {
         {items.map((item, index) => (
           <article
             key={item.id}
-            className="group flex h-full flex-col overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:border-cyan-300 hover:shadow-lg"
+            className="signal-card group flex h-full flex-col overflow-hidden rounded-lg border border-slate-200 bg-white pt-1 shadow-sm transition hover:-translate-y-1 hover:border-cyan-300 hover:shadow-lg"
           >
             <div className="border-b border-slate-100 bg-gradient-to-br from-[#071827] to-cyan-900 p-5 text-white">
               <div className="flex items-start justify-between gap-4">
