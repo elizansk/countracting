@@ -49,7 +49,7 @@ export default function ResourcesPage() {
             </p>
           </div>
           <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
-            <Image src="/images/anti-fraud-hero.png" alt="Защита семьи от мошенничества" fill sizes="18rem" className="object-cover" />
+            <Image src="/images/norilsk-anti-fraud-hero.png" alt="Защита семьи от мошенничества в Норильске" fill sizes="18rem" className="object-cover" />
           </div>
         </div>
       </motion.div>

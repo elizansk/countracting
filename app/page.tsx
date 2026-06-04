@@ -135,20 +135,35 @@ const safePhrases = [
   "Я проверю ссылку через официальный сайт, а не через сообщение.",
 ];
 
+const norilskContext = [
+  {
+    title: "Дальние расстояния",
+    text: "Когда родственники, банки и службы находятся далеко, мошенники чаще играют на срочности. Проверочный звонок становится обязательным правилом.",
+  },
+  {
+    title: "Северный ритм",
+    text: "В полярную ночь и после смены легче ошибиться от усталости. Любой финансовый вопрос лучше отложить хотя бы на десять секунд.",
+  },
+  {
+    title: "Городское сообщество",
+    text: "Предупредили одного человека — защитили соседей, коллег и семью. Рассказывайте о новых легендах простыми словами.",
+  },
+];
+
 export default function Home() {
   return (
-    <main className="bg-slate-50">
-      <section className="relative min-h-[calc(100vh-84px)] overflow-hidden border-b border-slate-200 bg-slate-950">
+    <main className="bg-cyan-50">
+      <section className="relative min-h-[calc(100vh-84px)] overflow-hidden border-b border-cyan-100 bg-[#071827]">
         <Image
-          src="/images/anti-fraud-hero.png"
-          alt="Семья проверяет подозрительное сообщение на телефоне"
+          src="/images/norilsk-anti-fraud-hero.png"
+          alt="Семья в Норильске проверяет подозрительное сообщение на телефоне"
           fill
           priority
           sizes="100vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/82 to-slate-950/20" />
-        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-slate-50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#071827] via-[#071827]/82 to-[#071827]/18" />
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-cyan-50 to-transparent" />
         <div className="relative mx-auto grid min-h-[calc(100vh-84px)] max-w-6xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:py-14">
           <motion.div
             initial={{ opacity: 0, y: 18 }}
@@ -158,14 +173,21 @@ export default function Home() {
           >
             <div className="inline-flex w-fit items-center gap-2 rounded-full border border-white/25 bg-white/15 px-3 py-1 text-sm font-semibold text-white backdrop-blur">
               <Shield size={16} />
-              Антифрод-памятка для всей семьи
+              Северный антифрод-навигатор
             </div>
             <h1 className="mt-5 max-w-3xl text-4xl font-black leading-tight text-white sm:text-5xl">
-              Защитите себя и близких от мошенничества в современных технологиях
+              Норильск против мошенников: защита для себя и близких
             </h1>
             <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-100">
-              Сайт собирает самое важное: как распознать схему, что делать в первые минуты, куда обращаться и как заранее обезопасить родителей, детей и свои аккаунты.
+              Арктический город живёт в своём ритме, но мошенники используют одни и те же приёмы: срочность, страх, коды, ссылки и давление. Здесь собраны понятные сценарии, первые действия и официальные ресурсы.
             </p>
+            <div className="mt-6 grid max-w-xl grid-cols-3 gap-3">
+              {['Норильск', 'семья', 'цифровая защита'].map((item) => (
+                <div key={item} className="rounded-lg border border-cyan-200/30 bg-cyan-100/10 px-3 py-2 text-center text-sm font-bold text-cyan-50 backdrop-blur">
+                  {item}
+                </div>
+              ))}
+            </div>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/safety-tips"
@@ -187,7 +209,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, delay: 0.1 }}
-            className="my-auto rounded-lg border border-white/20 bg-slate-950/82 p-5 text-white shadow-2xl shadow-black/30 backdrop-blur"
+            className="my-auto rounded-lg border border-cyan-200/20 bg-[#071827]/86 p-5 text-white shadow-2xl shadow-black/30 backdrop-blur"
           >
             <div className="flex items-center gap-3 border-b border-white/10 pb-4">
               <Clock className="text-red-300" size={24} />
@@ -217,13 +239,31 @@ export default function Home() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+        <div className="mb-5 max-w-3xl">
+          <p className="text-sm font-bold uppercase tracking-wider text-cyan-800">Норильский контекст</p>
+          <h2 className="mt-2 text-3xl font-black text-slate-950">Защита должна учитывать город, в котором мы живём</h2>
+          <p className="mt-4 leading-7 text-slate-600">
+            Северная специфика — это не только климат. Это смены, расстояния, семейные связи, работа и усталость. Поэтому главная защита — короткие понятные правила, которые легко вспомнить в стрессовой ситуации.
+          </p>
+        </div>
+        <div className="grid gap-4 md:grid-cols-3">
+          {norilskContext.map((item) => (
+            <article key={item.title} className="rounded-lg border border-cyan-100 bg-white p-5 shadow-sm">
+              <h3 className="text-xl font-black text-slate-950">{item.title}</h3>
+              <p className="mt-3 text-sm leading-6 text-slate-600">{item.text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
         <ScamRiskCheck />
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
         <div className="mb-5 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
           <div>
-            <p className="text-sm font-bold uppercase tracking-wider text-sky-700">Живые сценарии</p>
+            <p className="text-sm font-bold uppercase tracking-wider text-cyan-800">Живые сценарии</p>
             <h2 className="mt-2 text-3xl font-black text-slate-950">Смотрите на ситуацию, а не только на текст</h2>
           </div>
           <p className="max-w-md text-sm leading-6 text-slate-600">
